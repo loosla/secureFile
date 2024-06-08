@@ -1,0 +1,10 @@
+{
+    "main": "main.js",
+    "scripts": {
+        "start": "concurrently \"npm start --prefix frontend\" \"electron .\""
+    },
+    "devDependencies": {
+        "concurrently": "^6.5.1",
+        "electron": "^13.0.0"
+    }
+}
