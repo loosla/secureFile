@@ -1,4 +1,4 @@
-# hideinfo
+# secureFile
 
 Desktop Application to Encrypt and Decrypt Text in a file with the Password
 
