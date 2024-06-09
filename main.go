@@ -8,7 +8,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
+	"os"
 	"sync"
 )
 
@@ -79,13 +81,51 @@ type Response struct {
 }
 
 var (
-	textData = "Hello from Go backend!"
-	mu       sync.Mutex
+	mu          sync.Mutex
+	defaultFile = "files/file.txt"
 )
+
+func readFromFile(fileName string) (string, error) {
+	file, err := os.Open(fileName)
+	if err != nil {
+		return "", err
+	}
+	defer file.Close()
+
+	bytes, err := ioutil.ReadAll(file)
+	if err != nil {
+		return "", err
+	}
+
+	return string(bytes), nil
+}
+
+func writeToFile(fileName, data string) error {
+	file, err := os.OpenFile(fileName, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	if err != nil {
+		return fmt.Errorf("error opening file: %v", err)
+	}
+	defer file.Close()
+
+	// Write the data to the file
+	_, err = file.Write([]byte(data))
+	if err != nil {
+		return fmt.Errorf("error writing to file: %v", err)
+	}
+
+	return os.WriteFile(fileName, []byte(data), 0644)
+}
 
 func getTextHandler(w http.ResponseWriter, r *http.Request) {
 	mu.Lock()
 	defer mu.Unlock()
+
+	textData, err := readFromFile(defaultFile)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	response := Response{Text: textData}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
@@ -99,7 +139,11 @@ func saveTextHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	mu.Lock()
-	textData = response.Text
+	err := writeToFile(defaultFile, response.Text)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	mu.Unlock()
 
 	w.WriteHeader(http.StatusOK)
