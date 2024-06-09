@@ -4,10 +4,12 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
+	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
 	"os"
 	"sync"
@@ -23,17 +25,13 @@ type PasswordRequest struct {
 }
 
 type FileResponse struct {
-	Content string `json:"content"`
+	Password string `json:"password"`
+	Content  string `json:"content"`
 }
 
-// Generate a new AES key of the specified size in bytes (e.g., 32 for AES-256).
-func generateKey(size int) ([]byte, error) {
-	key := make([]byte, size)
-	if _, err := rand.Read(key); err != nil {
-		return nil, err
-	}
-
-	return key, nil
+func createAESKey(password string) []byte {
+	hash := sha256.Sum256([]byte(password))
+	return hash[:16] // Use the first 16 bytes of the hash
 }
 
 // Encrypt encrypts plaintext using the given key and returns the ciphertext encoded in base64.
@@ -136,7 +134,14 @@ func getTextHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp := FileResponse{Content: string(fileContent)}
+	key := createAESKey(req.Password)
+
+	decrypted, err := decrypt(fileContent, []byte(key))
+	if err != nil {
+		log.Fatalf("Failed to decrypt message: %v", err)
+	}
+
+	resp := FileResponse{Content: string(decrypted)}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(resp)
 }
@@ -148,8 +153,15 @@ func saveTextHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	key := createAESKey(response.Password)
+
+	encrypted, err := encrypt(response.Content, []byte(key))
+	if err != nil {
+		log.Fatalf("Failed to encrypt message: %v", err)
+	}
+
 	mu.Lock()
-	err := writeToFile(defaultFile, response.Content)
+	err = writeToFile(defaultFile, encrypted)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -165,24 +177,4 @@ func main() {
 
 	fmt.Println("Server started at http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
-
-	// key, err := generateKey(32) // AES-256
-	// if err != nil {
-	// 	log.Fatalf("Failed to generate key: %v", err)
-	// }
-
-	// message := "Hello, world!"
-	// fmt.Println("Original message:", message)
-
-	// encrypted, err := encrypt(message, key)
-	// if err != nil {
-	// 	log.Fatalf("Failed to encrypt message: %v", err)
-	// }
-	// fmt.Println("Encrypted message:", encrypted)
-
-	// decrypted, err := decrypt(encrypted, key)
-	// if err != nil {
-	// 	log.Fatalf("Failed to decrypt message: %v", err)
-	// }
-	// fmt.Println("Decrypted message:", decrypted)
 }

@@ -5,7 +5,7 @@ const TextAreaComponent = () => {
   const [password, setPassword] = useState('');
 
   const handleSave = () => {
-    window.api.saveText({ content: textAreaValue })
+    window.api.saveText({ password: password, content: textAreaValue })
       .then(() => alert('Text saved successfully'))
       .catch(error => console.error('Error saving data:', error));
   };
