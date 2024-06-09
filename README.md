@@ -85,7 +85,7 @@ Run Electron
 # TODO
 1. Remove files that shouldn't be here
 1. Reorganize go files
-1. Renaming FE and BE - together!
+1. Renaming BE
 1. Add tests
 1. Describe how to use (add screen, video)
 1. Add config for host, port to share between BE and FE
