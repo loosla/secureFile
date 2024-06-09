@@ -1,12 +1,12 @@
 import './App.css';
-import TextAreaComponent from './components/TextAreaComponent';
+import MainComponent from './components/MainComponent';
 
 function App() {
 
   return (
     <div className="App">
       <header className="App-header">
-        <TextAreaComponent />
+        <MainComponent />
       </header>
     </div>
   );

@@ -145,7 +145,7 @@ func getTextHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 
-func saveTextHandler(w http.ResponseWriter, r *http.Request) {
+func saveFileHandler(w http.ResponseWriter, r *http.Request) {
 	var response FileResponse
 	if err := json.NewDecoder(r.Body).Decode(&response); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -171,8 +171,8 @@ func saveTextHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	http.HandleFunc("/get-file", getTextHandler)
-	http.HandleFunc("/api/save", saveTextHandler)
+	http.HandleFunc("/api/get-file", getTextHandler)
+	http.HandleFunc("/api/save-file", saveFileHandler)
 
 	fmt.Println("Server started at http://localhost:8080")
 	http.ListenAndServe(":8080", nil)

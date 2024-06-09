@@ -28,13 +28,13 @@ app.whenReady().then(() => {
   });
 
   // IPC handlers
-  ipcMain.handle('save-text', async (event, data) => {
-    await axios.post('http://localhost:8080/api/save', data);
+  ipcMain.handle('save-file', async (event, data) => {
+    await axios.post('http://localhost:8080/api/save-file', data);
   });
 
   ipcMain.handle('fetch-file', async (event, password) => {
     try {
-      const response = await axios.post('http://localhost:8080/get-file', { password });
+      const response = await axios.post('http://localhost:8080/api/get-file', { password });
       return response.data.content;
     } catch (error) {
       console.error('Error fetching file:', error);
