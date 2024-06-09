@@ -21,5 +21,40 @@
 go.work
 go.work.sum
 
+# Node.js dependencies
 node_modules/
 frontend/node_modules/
+
+# Generated files
+build/
+dist/
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor files
+.vscode/
+.idea/
+*.sublime*
+*.swp
+
+# Dependency directories
+**/bower_components/
+
+# Production build
+public/asset-manifest.json
+public/favicon.ico
+public/manifest.json
+public/precache-manifest*.js
+public/robots.txt
+
+# Electron build
+electron-out/
