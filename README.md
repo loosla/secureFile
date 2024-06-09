@@ -19,8 +19,8 @@ To run this application, you need to have the following installed on your system
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/loosla/hideinfo.git
-cd hideinfo
+git clone https://github.com/loosla/secureFile.git
+cd secureFile
 ```
 
 ### 2. Install Dependencies for React App
@@ -67,17 +67,17 @@ npm start
 
 Run Frontend
 
-1. cd hideinfo/frontend
+1. cd secureFile/frontend
 1. npm install
 1. npm start
 
 Run Backend
 
-1. cd hideinfo
+1. cd secureFile
 1. go run .
 
 Run Electron
 
-1. cd hideinfo
+1. cd secureFile
 1. npm install
 1. npm start
