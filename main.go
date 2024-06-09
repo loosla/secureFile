@@ -5,9 +5,11 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"encoding/base64"
+	"encoding/json"
 	"fmt"
 	"io"
 	"net/http"
+	"sync"
 )
 
 // Generate a new AES key of the specified size in bytes (e.g., 32 for AES-256).
@@ -78,15 +80,44 @@ func enableCors(w *http.ResponseWriter) {
 	(*w).Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
 }
 
+type Response struct {
+	Text string `json:"text"`
+}
+
+var (
+	textData = "Hello from Go backend!"
+	mu       sync.Mutex
+)
+
+func getTextHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Print("Get")
+	mu.Lock()
+	defer mu.Unlock()
+	response := Response{Text: textData}
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(response)
+}
+
+func saveTextHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Print("Save")
+	var response Response
+	if err := json.NewDecoder(r.Body).Decode(&response); err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	mu.Lock()
+	fmt.Print("response.Text: ", response.Text)
+	textData = response.Text
+	mu.Unlock()
+
+	w.WriteHeader(http.StatusOK)
+}
+
 func main() {
 
-	http.HandleFunc("/api/hello", func(w http.ResponseWriter, r *http.Request) {
-		enableCors(&w)
-		if r.Method == http.MethodOptions {
-			return
-		}
-		fmt.Fprintln(w, "Hello, World!")
-	})
+	http.HandleFunc("/api/text", getTextHandler)
+	http.HandleFunc("/api/save", saveTextHandler)
 
 	fmt.Println("Server started at http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
