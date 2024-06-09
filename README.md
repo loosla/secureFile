@@ -59,7 +59,7 @@ Navigate back to the root directory and start the Electron app:
 
 ```bash
 cd ..
-npx electron .
+npm start
 ```
 
 ## To start the application locally (old)
