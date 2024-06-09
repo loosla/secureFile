@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
+import TextAreaComponent from './components/TextAreaComponent';
 
 function App() {
   const [message, setMessage] = useState('');
@@ -13,6 +14,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <TextAreaComponent />
         <p>{message}</p>
       </header>
     </div>
