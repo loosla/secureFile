@@ -30,10 +30,11 @@ cd frontend
 npm install
 ```
 
-### 3. Build the React App
+### 3. Build and Start the React App
 
 ```bash
 npm run build
+npm start
 ```
 
 ### 4. Install Dependencies for Electron
