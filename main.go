@@ -115,19 +115,34 @@ func writeToFile(fileName, data string) error {
 	return os.WriteFile(fileName, []byte(data), 0644)
 }
 
+type PasswordRequest struct {
+	Password string `json:"password"`
+}
+
+type FileResponse struct {
+	Content string `json:"content"`
+}
+
 func getTextHandler(w http.ResponseWriter, r *http.Request) {
 	mu.Lock()
 	defer mu.Unlock()
 
-	textData, err := readFromFile(defaultFile)
+	var req PasswordRequest
+	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
+		http.Error(w, "Unauthorized", http.StatusUnauthorized)
 		return
 	}
 
-	response := Response{Text: textData}
+	fileContent, err := readFromFile(defaultFile)
+	if err != nil {
+		http.Error(w, "File not found", http.StatusNotFound)
+		return
+	}
+
+	resp := FileResponse{Content: string(fileContent)}
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+	json.NewEncoder(w).Encode(resp)
 }
 
 func saveTextHandler(w http.ResponseWriter, r *http.Request) {
@@ -149,7 +164,7 @@ func saveTextHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-
+	http.HandleFunc("/get-file", getTextHandler)
 	http.HandleFunc("/api/text", getTextHandler)
 	http.HandleFunc("/api/save", saveTextHandler)
 

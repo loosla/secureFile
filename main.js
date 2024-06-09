@@ -37,6 +37,16 @@ app.whenReady().then(() => {
     await axios.post('http://localhost:8080/api/save', data);
   });
 
+  ipcMain.handle('fetch-file', async (event, password) => {
+    try {
+      const response = await axios.post('http://localhost:8080/get-file', { password });
+      return response.data.content;
+    } catch (error) {
+      console.error('Error fetching file:', error);
+      return 'Error fetching file';
+    }
+  });
+
   createWindow();
 
   app.on('activate', function () {
