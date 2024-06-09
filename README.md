@@ -1,8 +1,69 @@
 # hideinfo
 
-Desktop Application to Encript and Decript Text with the Key
+Desktop Application to Encrypt and Decrypt Text in a file with the Password
 
-## To start the application locally
+## Requirements
+
+To run this application, you need to have the following installed on your system:
+
+1. **Node.js and npm**
+
+   - [Download and install Node.js](https://nodejs.org/)
+
+2. **Go**
+   - go version 1.21+
+   - [Download and install Go](https://golang.org/dl/)
+
+## Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/loosla/hideinfo.git
+cd hideinfo
+```
+
+### 2. Install Dependencies for React App
+
+```bash
+cd frontend
+npm install
+```
+
+### 3. Build the React App
+
+```bash
+npm run build
+```
+
+### 4. Install Electron
+
+Navigate back to the root directory and install Electron:
+
+```bash
+cd ..
+npm install electron
+```
+
+### 5. Start the Go Backend
+
+Navigate to the backend directory and start the Go server:
+
+```bash
+cd backend
+go run main.go
+```
+
+### 6. Start the Electron App
+
+Navigate back to the root directory and start the Electron app:
+
+```bash
+cd ..
+npx electron .
+```
+
+## To start the application locally (old)
 
 Run Frontend
 
