@@ -47,11 +47,10 @@ npm install electron
 
 ### 5. Start the Go Backend
 
-Navigate to the backend directory and start the Go server:
+Navigate to the root directory and start the Go server:
 
 ```bash
-cd backend
-go run main.go
+go run .
 ```
 
 ### 6. Start the Electron App
