@@ -28,11 +28,6 @@ app.whenReady().then(() => {
   });
 
   // IPC handlers
-  ipcMain.handle('fetch-text', async () => {
-    const response = await axios.get('http://localhost:8080/api/text');
-    return response.data;
-  });
-
   ipcMain.handle('save-text', async (event, data) => {
     await axios.post('http://localhost:8080/api/save', data);
   });

@@ -13,6 +13,19 @@ import (
 	"sync"
 )
 
+var (
+	mu          sync.Mutex
+	defaultFile = "files/file.txt"
+)
+
+type PasswordRequest struct {
+	Password string `json:"password"`
+}
+
+type FileResponse struct {
+	Content string `json:"content"`
+}
+
 // Generate a new AES key of the specified size in bytes (e.g., 32 for AES-256).
 func generateKey(size int) ([]byte, error) {
 	key := make([]byte, size)
@@ -75,15 +88,6 @@ func decrypt(ciphertext string, key []byte) (string, error) {
 	return string(data), nil
 }
 
-type Response struct {
-	Text string `json:"text"`
-}
-
-var (
-	mu          sync.Mutex
-	defaultFile = "files/file.txt"
-)
-
 func readFromFile(fileName string) (string, error) {
 	file, err := os.Open(fileName)
 	if err != nil {
@@ -115,14 +119,6 @@ func writeToFile(fileName, data string) error {
 	return os.WriteFile(fileName, []byte(data), 0644)
 }
 
-type PasswordRequest struct {
-	Password string `json:"password"`
-}
-
-type FileResponse struct {
-	Content string `json:"content"`
-}
-
 func getTextHandler(w http.ResponseWriter, r *http.Request) {
 	mu.Lock()
 	defer mu.Unlock()
@@ -146,14 +142,14 @@ func getTextHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func saveTextHandler(w http.ResponseWriter, r *http.Request) {
-	var response Response
+	var response FileResponse
 	if err := json.NewDecoder(r.Body).Decode(&response); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	mu.Lock()
-	err := writeToFile(defaultFile, response.Text)
+	err := writeToFile(defaultFile, response.Content)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -165,7 +161,6 @@ func saveTextHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/get-file", getTextHandler)
-	http.HandleFunc("/api/text", getTextHandler)
 	http.HandleFunc("/api/save", saveTextHandler)
 
 	fmt.Println("Server started at http://localhost:8080")
@@ -184,8 +179,6 @@ func main() {
 	// 	log.Fatalf("Failed to encrypt message: %v", err)
 	// }
 	// fmt.Println("Encrypted message:", encrypted)
-	// // Save the key
-	// fmt.Println("Key:", key)
 
 	// decrypted, err := decrypt(encrypted, key)
 	// if err != nil {
