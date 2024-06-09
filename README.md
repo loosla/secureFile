@@ -81,3 +81,10 @@ Run Electron
 1. cd hideinfo
 1. npm install
 1. npm start
+
+# TODO
+1. Remove files that shouldn't be here
+1. Reorganize go files
+1. Renaming FE and BE - together!
+1. Add tests
+1. Describe how to use (add screen, video)
