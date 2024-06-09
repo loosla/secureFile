@@ -36,13 +36,13 @@ npm install
 npm run build
 ```
 
-### 4. Install Electron
+### 4. Install Dependencies for Electron
 
 Navigate back to the root directory and install Electron:
 
 ```bash
 cd ..
-npm install electron
+npm install
 ```
 
 ### 5. Start the Go Backend
