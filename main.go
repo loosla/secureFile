@@ -74,12 +74,6 @@ func decrypt(ciphertext string, key []byte) (string, error) {
 	return string(data), nil
 }
 
-func enableCors(w *http.ResponseWriter) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "*")
-	(*w).Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-	(*w).Header().Set("Access-Control-Allow-Headers", "Content-Type, Authorization")
-}
-
 type Response struct {
 	Text string `json:"text"`
 }
@@ -90,7 +84,6 @@ var (
 )
 
 func getTextHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Print("Get")
 	mu.Lock()
 	defer mu.Unlock()
 	response := Response{Text: textData}
@@ -99,7 +92,6 @@ func getTextHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func saveTextHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Print("Save")
 	var response Response
 	if err := json.NewDecoder(r.Body).Decode(&response); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -107,7 +99,6 @@ func saveTextHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	mu.Lock()
-	fmt.Print("response.Text: ", response.Text)
 	textData = response.Text
 	mu.Unlock()
 

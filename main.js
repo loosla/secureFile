@@ -1,5 +1,6 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const axios = require('axios');
 const { spawn } = require('child_process');
 
 function createWindow () {
@@ -24,6 +25,16 @@ app.whenReady().then(() => {
 
   goServer.stderr.on('data', (data) => {
     console.error(`Go server stderr: ${data}`);
+  });
+
+  // IPC handlers
+  ipcMain.handle('fetch-text', async () => {
+    const response = await axios.get('http://localhost:8080/api/text');
+    return response.data;
+  });
+
+  ipcMain.handle('save-text', async (event, data) => {
+    await axios.post('http://localhost:8080/api/save', data);
   });
 
   createWindow();
