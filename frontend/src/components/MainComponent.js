@@ -4,7 +4,7 @@ const TextAreaComponent = () => {
   const [textAreaValue, setTextAreaValue] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSave = () => {
+  const handleSaveFile = () => {
     window.api.saveFile({ password: password, content: textAreaValue })
       .then(() => alert('Text saved successfully'))
       .catch(error => console.error('Error saving data:', error));
@@ -35,7 +35,7 @@ const TextAreaComponent = () => {
         cols="50"
       />
       <br />
-      <button onClick={handleSave}>Save</button>
+      <button onClick={handleSaveFile}>Save</button>
     </div>
   );
 };
