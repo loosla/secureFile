@@ -17,7 +17,7 @@ import (
 
 var (
 	mu          sync.Mutex
-	defaultFile = "files/file.txt"
+	defaultFile = "../files/file.txt"
 )
 
 type PasswordRequest struct {
