@@ -34,59 +34,47 @@ npm install
 
 ```bash
 npm run build
-npm start
+npm start-frontend
 ```
 
-### 4. Install Dependencies for Electron
-
-Navigate back to the root directory and install Electron:
-
-```bash
-cd ..
-npm install
-```
-
-### 5. Start the Go Backend
+### 4. Start the Go Backend
 
 Navigate to the root directory and start the Go server:
 
 ```bash
+cd ..
 go run .
+```
+
+### 5. Install Dependencies for Electron
+
+Navigate to electron directory and install Electron:
+
+```bash
+cd electron
+npm install
 ```
 
 ### 6. Start the Electron App
 
-Navigate back to the root directory and start the Electron app:
+Navigate to electron directory and start the Electron app:
 
 ```bash
 cd ..
+npm start-electron
+```
+
+## Quick start with everything pre-installed
+
+```bash
 npm start
 ```
 
-## To start the application locally (old)
-
-Run Frontend
-
-1. cd secureFile/frontend
-1. npm install
-1. npm start
-
-Run Backend
-
-1. cd secureFile
-1. go run .
-
-Run Electron
-
-1. cd secureFile
-1. npm install
-1. npm start
-
 # TODO
+
 1. Remove files that shouldn't be here
 1. Reorganize go files
 1. Renaming BE
 1. Add tests
 1. Describe how to use (add screen, video)
 1. Add config for host, port to share between BE and FE
-
