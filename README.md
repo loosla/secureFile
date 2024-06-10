@@ -4,6 +4,18 @@ Desktop Application to Encrypt and Decrypt Text in a file with the Password
 
 ![Screenshot from 2024-06-09 17-07-02](https://github.com/loosla/secureFile/assets/12526985/ac92fb18-39a1-4d38-828d-4c96551c3070)
 
+## How to use
+
+1. Start the app
+1. Type a password
+1. Add your text to the text area: passwords or other secrets you would like to store safely
+1. Hit "Save". Your text will be encrypted and saved in files/file.txt encrypted with the password set
+1. Close the app
+
+Now you can reopen and read your file using the password you set.
+
+Note: Always remember the password you set before saving. If you change the password, the new password will be required to access the updated version of the file.
+
 ## Requirements
 
 To run this application, you need to have the following installed on your system:
@@ -74,7 +86,6 @@ npm start
 
 # TODO
 
-1. Remove files that shouldn't be here
 1. Reorganize go files
 1. Renaming BE
 1. Add tests
