@@ -2,6 +2,8 @@
 
 Desktop Application to Encrypt and Decrypt Text in a file with the Password
 
+![Screenshot from 2024-06-09 17-07-02](https://github.com/loosla/secureFile/assets/12526985/ac92fb18-39a1-4d38-828d-4c96551c3070)
+
 ## Requirements
 
 To run this application, you need to have the following installed on your system:
@@ -78,3 +80,4 @@ npm start
 1. Add tests
 1. Describe how to use (add screen, video)
 1. Add config for host, port to share between BE and FE
+1. Path to file or file name as an input?
