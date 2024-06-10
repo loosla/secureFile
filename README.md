@@ -91,4 +91,5 @@ Run Electron
 1. Add tests
 1. Describe how to use (add screen, video)
 1. Add config for host, port to share between BE and FE
-
+1. Path to file or file name as an input?
+1. Simplify run
