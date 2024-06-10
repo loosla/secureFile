@@ -41,10 +41,10 @@ npm start-frontend
 
 ### 4. Start the Go Backend
 
-Navigate to the root directory and start the Go server:
+Navigate to the backend directory and start the Go server:
 
 ```bash
-cd ..
+cd ../backend
 go run .
 ```
 
@@ -53,7 +53,7 @@ go run .
 Navigate to electron directory and install Electron:
 
 ```bash
-cd electron
+cd ../electron
 npm install
 ```
 
