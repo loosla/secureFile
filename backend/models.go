@@ -1,10 +1,10 @@
 package main
 
-type PasswordRequest struct {
+type Password struct {
 	Password string `json:"password"`
 }
 
-type FileResponse struct {
+type File struct {
 	Password string `json:"password"`
 	Content  string `json:"content"`
 }

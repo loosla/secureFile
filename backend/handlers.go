@@ -10,7 +10,7 @@ func getFileHandler(w http.ResponseWriter, r *http.Request) {
 	mu.Lock()
 	defer mu.Unlock()
 
-	var req PasswordRequest
+	var req Password
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		http.Error(w, "Unauthorized", http.StatusUnauthorized)
@@ -30,13 +30,13 @@ func getFileHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Failed to decrypt message: %v", err)
 	}
 
-	resp := FileResponse{Content: string(decrypted)}
+	resp := File{Content: string(decrypted)}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(resp)
 }
 
 func saveFileHandler(w http.ResponseWriter, r *http.Request) {
-	var response FileResponse
+	var response File
 	if err := json.NewDecoder(r.Body).Decode(&response); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
