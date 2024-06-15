@@ -86,8 +86,6 @@ npm start
 
 # TODO
 
-1. Reorganize go files
-1. Renaming BE
 1. Add tests
 1. Add config for host, port to share between BE and FE
 1. Path to file or file name as an input?
