@@ -1,4 +1,4 @@
-name: Go
+name: Go Backend Tests
 
 on:
   push:
@@ -21,18 +21,23 @@ jobs:
         with:
           go-version: "1.21.3"
 
+      - name: Set up backend directory
+        run: cd backend
+
       - name: Cache Go modules
         uses: actions/cache@v3
         with:
           path: |
             ~/.cache/go-build
-            ~/backend/go/pkg/mod
+            ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
 
       - name: Install dependencies
-        run: cd ~/backend; go mod tidy
+        working-directory: ./backend
+        run: go mod tidy
 
       - name: Run tests
-        run: cd ~backend; go test -v ./...
+        working-directory: ./backend
+        run: go test -v ./...
