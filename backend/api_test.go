@@ -40,7 +40,7 @@ func TestFilesContentHandler(t *testing.T) {
 	os.WriteFile(testFile, []byte(encryptedContent), 0644)
 
 	// Create a request to pass to the handler
-	reqBody := Password{Password: password} // TODO: Should be protected.
+	reqBody := FilesContentRequest{Password: password} // TODO: Should be protected.
 	reqBodyBytes, _ := json.Marshal(reqBody)
 	req, err := http.NewRequest("POST", "/files/content", bytes.NewBuffer(reqBodyBytes))
 	if err != nil {
@@ -61,8 +61,8 @@ func TestFilesContentHandler(t *testing.T) {
 	}
 
 	// Check the response body is what we expect
-	expected := File{Content: content}
-	var resp File
+	expected := FilesContentResponse{Content: content}
+	var resp FilesContentResponse
 	if err := json.NewDecoder(rr.Body).Decode(&resp); err != nil {
 		t.Fatalf("Could not decode response: %v", err)
 	}
@@ -79,11 +79,11 @@ func TestFilesSaveHandler(t *testing.T) {
 	// Create a request to pass to the handler
 	password := "testpassword"
 	content := "This is a test file content."
-	reqBody := File{Password: password, Content: content}
+	reqBody := FilesSaveRequest{Password: password, Content: content}
 	reqBodyBytes, _ := json.Marshal(reqBody)
 	req, err := http.NewRequest("POST", "/files/save", bytes.NewBuffer(reqBodyBytes))
 	if err != nil {
-		t.Fatalf("Could not create request: %v", err)
+		t.Fatalf("Could not save request: %v", err)
 	}
 
 	// Create a ResponseRecorder to record the response

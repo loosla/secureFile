@@ -16,7 +16,7 @@ func filesContentHandler(w http.ResponseWriter, r *http.Request) {
 	mu.RLock()
 	defer mu.RUnlock()
 
-	var req Password
+	var req FilesContentRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		http.Error(w, "unauthorized", http.StatusUnauthorized) // TODO: check errors.
@@ -36,13 +36,13 @@ func filesContentHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("failed to decrypt message: %v", err)
 	}
 
-	resp := File{Content: string(decrypted)}
+	resp := FilesContentResponse{Content: string(decrypted)}
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(resp)
 }
 
 func filesSaveHandler(w http.ResponseWriter, r *http.Request) {
-	var file File
+	var file FilesSaveRequest
 	if err := json.NewDecoder(r.Body).Decode(&file); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
