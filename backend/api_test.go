@@ -40,7 +40,7 @@ func TestGetFileHandler(t *testing.T) {
 	os.WriteFile(testFile, []byte(encryptedContent), 0644)
 
 	// Create a request to pass to the handler
-	reqBody := Password{Password: password}
+	reqBody := Password{Password: password} // TODO: Should be protected.
 	reqBodyBytes, _ := json.Marshal(reqBody)
 	req, err := http.NewRequest("GET", "/file", bytes.NewBuffer(reqBodyBytes))
 	if err != nil {

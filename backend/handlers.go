@@ -19,13 +19,13 @@ func getFileHandler(w http.ResponseWriter, r *http.Request) {
 	var req Password
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized) // TODO: check errors.
+		http.Error(w, "unauthorized", http.StatusUnauthorized) // TODO: check errors.
 		return
 	}
 
 	fileContent, err := readFromFile(defaultFile)
 	if err != nil {
-		http.Error(w, "File not found", http.StatusNotFound)
+		http.Error(w, "file not found", http.StatusNotFound)
 		return
 	}
 
@@ -33,7 +33,7 @@ func getFileHandler(w http.ResponseWriter, r *http.Request) {
 
 	decrypted, err := decrypt(fileContent, []byte(key))
 	if err != nil {
-		log.Fatalf("Failed to decrypt message: %v", err)
+		log.Fatalf("failed to decrypt message: %v", err)
 	}
 
 	resp := File{Content: string(decrypted)}
@@ -42,17 +42,17 @@ func getFileHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func updateFileHandler(w http.ResponseWriter, r *http.Request) {
-	var response File
-	if err := json.NewDecoder(r.Body).Decode(&response); err != nil {
+	var file File
+	if err := json.NewDecoder(r.Body).Decode(&file); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
-	key := createAESKey(response.Password)
+	key := createAESKey(file.Password)
 
-	encrypted, err := encrypt(response.Content, []byte(key))
+	encrypted, err := encrypt(file.Content, []byte(key))
 	if err != nil {
-		log.Fatalf("Failed to encrypt message: %v", err)
+		log.Fatalf("failed to encrypt message: %v", err)
 	}
 
 	mu.Lock()
