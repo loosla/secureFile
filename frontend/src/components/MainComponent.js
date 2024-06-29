@@ -4,14 +4,14 @@ const TextAreaComponent = () => {
   const [textAreaValue, setTextAreaValue] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleUpdate = () => {
-    window.api.update({ password: password, content: textAreaValue })
+  const handleSave = () => {
+    window.api.filesSave({ password: password, content: textAreaValue })
       .then(() => alert('Text saved successfully'))
       .catch(error => console.error('Error saving data:', error));
   };
 
-  const handleGet = async () => {
-    const content = await window.api.get(password);
+  const handleFetchContent = async () => {
+    const content = await window.api.filesContent(password);
     setTextAreaValue(content);
   };
 
@@ -26,7 +26,7 @@ const TextAreaComponent = () => {
         placeholder="Enter password"
       />
       <br />
-      <button onClick={handleGet}>Decrypt</button>
+      <button onClick={handleFetchContent}>Decrypt</button>
       <br />
       <textarea
         value={textAreaValue}
@@ -35,7 +35,7 @@ const TextAreaComponent = () => {
         cols="50"
       />
       <br />
-      <button onClick={handleUpdate}>Save</button>
+      <button onClick={handleSave}>Save</button>
     </div>
   );
 };

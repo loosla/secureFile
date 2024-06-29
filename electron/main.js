@@ -28,16 +28,16 @@ app.whenReady().then(() => {
   });
 
   // IPC handlers
-  ipcMain.handle('update', async (event, data) => {
-    await axios.post('http://localhost:8080/file/update', data);
+  ipcMain.handle('files-save', async (event, data) => {
+    await axios.post('http://localhost:8080/files/save', data);
   });
 
-  ipcMain.handle('get', async (event, password) => {
+  ipcMain.handle('files-content', async (event, password) => {
     try {
-      const response = await axios.post('http://localhost:8080/file', { password });
+      const response = await axios.post('http://localhost:8080/files/content', { password });
       return response.data.content;
     } catch (error) {
-      console.error('Error getting file:', error);
+      console.error('Error getting the content of the file with the password:', error);
       return 'Error getting file';
     }
   });

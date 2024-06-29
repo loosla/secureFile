@@ -6,8 +6,8 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/file", getFileHandler)
-	http.HandleFunc("/file/update", updateFileHandler)
+	http.HandleFunc("/files/content", filesContentHandler)
+	http.HandleFunc("/files/save", filesSaveHandler)
 
 	fmt.Println("Server started at http://localhost:8080")
 	http.ListenAndServe(":8080", nil)

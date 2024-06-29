@@ -12,7 +12,7 @@ var (
 	defaultFile = "../files/file.txt" // TODO: receive from user.
 )
 
-func getFileHandler(w http.ResponseWriter, r *http.Request) {
+func filesContentHandler(w http.ResponseWriter, r *http.Request) {
 	mu.RLock()
 	defer mu.RUnlock()
 
@@ -41,7 +41,7 @@ func getFileHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 
-func updateFileHandler(w http.ResponseWriter, r *http.Request) {
+func filesSaveHandler(w http.ResponseWriter, r *http.Request) {
 	var file File
 	if err := json.NewDecoder(r.Body).Decode(&file); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)

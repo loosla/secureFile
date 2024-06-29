@@ -28,7 +28,7 @@ func teardown() {
 	mutex.Unlock()
 }
 
-func TestGetFileHandler(t *testing.T) {
+func TestFilesContentHandler(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -42,14 +42,14 @@ func TestGetFileHandler(t *testing.T) {
 	// Create a request to pass to the handler
 	reqBody := Password{Password: password} // TODO: Should be protected.
 	reqBodyBytes, _ := json.Marshal(reqBody)
-	req, err := http.NewRequest("GET", "/file", bytes.NewBuffer(reqBodyBytes))
+	req, err := http.NewRequest("POST", "/files/content", bytes.NewBuffer(reqBodyBytes))
 	if err != nil {
 		t.Fatalf("Could not create request: %v", err)
 	}
 
 	// Create a ResponseRecorder to record the response
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(getFileHandler)
+	handler := http.HandlerFunc(filesContentHandler)
 
 	// Call the handler
 	handler.ServeHTTP(rr, req)
@@ -72,7 +72,7 @@ func TestGetFileHandler(t *testing.T) {
 	}
 }
 
-func TestUpdateHandler(t *testing.T) {
+func TestFilesSaveHandler(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -81,14 +81,14 @@ func TestUpdateHandler(t *testing.T) {
 	content := "This is a test file content."
 	reqBody := File{Password: password, Content: content}
 	reqBodyBytes, _ := json.Marshal(reqBody)
-	req, err := http.NewRequest("PUT", "/file/update", bytes.NewBuffer(reqBodyBytes))
+	req, err := http.NewRequest("POST", "/files/save", bytes.NewBuffer(reqBodyBytes))
 	if err != nil {
 		t.Fatalf("Could not create request: %v", err)
 	}
 
 	// Create a ResponseRecorder to record the response
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(updateFileHandler)
+	handler := http.HandlerFunc(filesSaveHandler)
 
 	// Call the handler
 	handler.ServeHTTP(rr, req)
