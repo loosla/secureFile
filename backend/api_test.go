@@ -42,7 +42,7 @@ func TestGetFileHandler(t *testing.T) {
 	// Create a request to pass to the handler
 	reqBody := Password{Password: password}
 	reqBodyBytes, _ := json.Marshal(reqBody)
-	req, err := http.NewRequest("POST", "/api/get-file", bytes.NewBuffer(reqBodyBytes))
+	req, err := http.NewRequest("GET", "/file", bytes.NewBuffer(reqBodyBytes))
 	if err != nil {
 		t.Fatalf("Could not create request: %v", err)
 	}
@@ -72,7 +72,7 @@ func TestGetFileHandler(t *testing.T) {
 	}
 }
 
-func TestSaveFileHandler(t *testing.T) {
+func TestUpdateHandler(t *testing.T) {
 	setup()
 	defer teardown()
 
@@ -81,14 +81,14 @@ func TestSaveFileHandler(t *testing.T) {
 	content := "This is a test file content."
 	reqBody := File{Password: password, Content: content}
 	reqBodyBytes, _ := json.Marshal(reqBody)
-	req, err := http.NewRequest("POST", "/api/save-file", bytes.NewBuffer(reqBodyBytes))
+	req, err := http.NewRequest("PUT", "/file/update", bytes.NewBuffer(reqBodyBytes))
 	if err != nil {
 		t.Fatalf("Could not create request: %v", err)
 	}
 
 	// Create a ResponseRecorder to record the response
 	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(saveFileHandler)
+	handler := http.HandlerFunc(updateFileHandler)
 
 	// Call the handler
 	handler.ServeHTTP(rr, req)

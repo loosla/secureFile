@@ -4,16 +4,22 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"sync"
+)
+
+var (
+	mu          sync.RWMutex
+	defaultFile = "../files/file.txt" // TODO: receive from user.
 )
 
 func getFileHandler(w http.ResponseWriter, r *http.Request) {
-	mu.Lock()
-	defer mu.Unlock()
+	mu.RLock()
+	defer mu.RUnlock()
 
 	var req Password
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
-		http.Error(w, "Unauthorized", http.StatusUnauthorized)
+		http.Error(w, "Unauthorized", http.StatusUnauthorized) // TODO: check errors.
 		return
 	}
 
@@ -35,7 +41,7 @@ func getFileHandler(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 
-func saveFileHandler(w http.ResponseWriter, r *http.Request) {
+func updateFileHandler(w http.ResponseWriter, r *http.Request) {
 	var response File
 	if err := json.NewDecoder(r.Body).Decode(&response); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
