@@ -1,6 +1,6 @@
 # secureFile
 
-Desktop Application to Encrypt and Decrypt Text in a file with the Password
+Desktop Application for Encrypting and Decrypting Text Files with Password Protection to Secure Your Secrets
 
 ![Screenshot from 2024-06-09 17-07-02](https://github.com/loosla/secureFile/assets/12526985/ac92fb18-39a1-4d38-828d-4c96551c3070)
 
