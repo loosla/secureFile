@@ -48,7 +48,7 @@ npm install
 
 ```bash
 npm run build
-npm start-frontend
+npm start
 ```
 
 ### 4. Start the Go Backend
