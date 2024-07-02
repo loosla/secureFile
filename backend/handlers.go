@@ -19,7 +19,7 @@ func filesContentHandler(w http.ResponseWriter, r *http.Request) {
 	var req FilesContentRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
-		http.Error(w, "unauthorized", http.StatusUnauthorized) // TODO: check errors.
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
