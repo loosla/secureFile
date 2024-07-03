@@ -60,7 +60,7 @@ func TestFilesContentHandler(t *testing.T) {
 			status, http.StatusOK)
 	}
 
-	// TODO: uncomment when can setup path to file.
+	// TODO: uncomment when can set path to file.
 	// Check the response body is what we expect
 	// expected := FilesContentResponse{Content: content}
 	// var resp FilesContentResponse
@@ -100,7 +100,7 @@ func TestFilesSaveHandler(t *testing.T) {
 			status, http.StatusOK)
 	}
 
-	// TODO: uncomment when can setup path to file.
+	// TODO: uncomment when can set path to file.
 	// Check if the content was correctly saved to the file
 	// fileContent, err := readFromFile("../files/file.txt") // TODO: fix!
 	// if err != nil {
