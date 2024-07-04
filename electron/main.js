@@ -29,7 +29,7 @@ app.whenReady().then(() => {
 
   // IPC handlers
   ipcMain.handle('files-save', async (event, data) => {
-    await axios.post('http://localhost:8080/files/save', data);
+    await axios.put('http://localhost:8080/files/save', data);
   });
 
   ipcMain.handle('files-content', async (event, password) => {

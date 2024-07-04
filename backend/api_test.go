@@ -82,7 +82,7 @@ func TestFilesSaveHandler(t *testing.T) {
 	content := "This is a test file content."
 	reqBody := FilesSaveRequest{Password: password, Content: content}
 	reqBodyBytes, _ := json.Marshal(reqBody)
-	req, err := http.NewRequest("POST", "/files/save", bytes.NewBuffer(reqBodyBytes))
+	req, err := http.NewRequest("PUT", "/files/save", bytes.NewBuffer(reqBodyBytes))
 	if err != nil {
 		t.Fatalf("Could not save request: %v", err)
 	}
