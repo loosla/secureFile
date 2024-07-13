@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"sync"
@@ -22,6 +23,9 @@ func filesContentHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+
+	fmt.Println("File: ", req.File)
+	fmt.Println("Password: ", req.Password)
 
 	fileContent, err := readFromFile(defaultFile)
 	if err != nil {

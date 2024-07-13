@@ -2,7 +2,7 @@ package main
 
 type FilesContentRequest struct {
 	Password string `json:"password"`
-	// TODO: add file
+	File     string `json:"file"`
 }
 
 type FilesContentResponse struct {

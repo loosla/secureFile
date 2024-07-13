@@ -1,6 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron/renderer');
 
 contextBridge.exposeInMainWorld('api', {
-  filesContent: (password) => ipcRenderer.invoke('files-content', password),
+  filesContent: (data) => ipcRenderer.invoke('files-content', data),
   filesSave: (data) => ipcRenderer.invoke('files-save', data),
 });

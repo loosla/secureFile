@@ -3,15 +3,9 @@ import React, { useState, useRef } from 'react';
 const TextAreaComponent = () => {
   const [textAreaValue, setTextAreaValue] = useState('');
   const [password, setPassword] = useState('');
+  const [file, handleFileUpload] = useState('');
 
   const fileInputRef = useRef(null);
-
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      console.log('Selected file:', file);
-    }
-  };
 
   const openFileDialog = () => {
     fileInputRef.current.click();
@@ -24,7 +18,7 @@ const TextAreaComponent = () => {
   };
 
   const handleFetchContent = async () => {
-    const content = await window.api.filesContent(password);
+    const content = await window.api.filesContent({file: file, password:password});
     setTextAreaValue(content);
   };
 
@@ -36,7 +30,7 @@ const TextAreaComponent = () => {
           type="file"
           ref={fileInputRef}
           style={{ display: 'none' }}
-          onChange={handleFileUpload}
+          onChange={(e) => handleFileUpload(e.target.value)}
         />
         <div>
           <label htmlFor="password">Password: </label>

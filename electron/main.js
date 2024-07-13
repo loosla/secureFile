@@ -32,9 +32,9 @@ app.whenReady().then(() => {
     await axios.put('http://localhost:8080/files/save', data);
   });
 
-  ipcMain.handle('files-content', async (event, password) => {
+  ipcMain.handle('files-content', async (event, data) => {
     try {
-      const response = await axios.post('http://localhost:8080/files/content', { password });
+      const response = await axios.post('http://localhost:8080/files/content', data);
       return response.data.content;
     } catch (error) {
       console.error('Error getting the content of the file with the password:', error);
